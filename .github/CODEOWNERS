@@ -1,0 +1,10 @@
+# Every change is reviewed. Combined with a branch protection rule that requires
+# review from Code Owners, this is what makes "everything through a PR" real
+# rather than a convention people drift away from.
+#
+# Install at .github/CODEOWNERS in each repo.
+#
+# NOTE: CODEOWNERS only has teeth once `main` is protected with
+# "Require review from Code Owners" enabled. On its own it is advisory.
+
+*       @naush-c

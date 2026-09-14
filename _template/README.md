@@ -1,12 +1,13 @@
 # Template
 
-Copy this whole directory, rename it to your platform ID, and start editing.
+Copy this whole directory inside your own repository (the one you created from
+this template), give it a name that says what it does, and start editing.
 
 ```bash
-cp -r _template pgXXXX
+cp -r _template my-first-pipeline
 ```
 
-Then in `pipeline.py`, change `PG_ID` to your own.
+Then in `pipeline.py`, change `PG_ID` to your own platform ID, in lowercase.
 
 ## What to put in your README
 

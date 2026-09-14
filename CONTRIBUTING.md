@@ -1,27 +1,23 @@
 # Contributing
 
-Everything lands through a pull request that Naush reviews. There is no path
-that skips review, and that is deliberate — the point of this playground is to
-practise the workflow a real data team uses, not just to run code.
+## Your work lives in your own repository
 
-## Work in your own directory
+This repository is a **template**. It holds the starting point and the worked
+examples, and it is kept in shape for everyone. Your own pipelines are not merged
+into it — they live in a repository you own:
 
-Each contributor gets one directory, named after your platform ID:
+1. Open [datapg-labs/ingestion](https://github.com/datapg-labs/ingestion) and click
+   **Use this template → Create a new repository**.
+2. Choose **your own GitHub account** as the owner. Public or private is up to you.
+3. Clone your new repository to your own machine (next section).
 
-```
-ingestion/
-  pgXXXX/
-    my-first-pipeline/
-      README.md
-      produce.py
-```
+From then on it is yours: commit and push whenever you like, organise it however
+you like, and it shows on your GitHub profile. Nobody has to approve anything
+before you can keep going.
 
-Your platform ID is the `PGxxxx` you were given when your access was approved —
-the same name as your Kafka user. Stay inside your own directory. A pull request
-that edits someone else's work, or anything at the repo root, will be sent back.
-
-This is not bureaucracy: it is what keeps twenty people working in one repo
-without constant merge conflicts.
+Why not one shared repository with a directory per person? Every change would wait
+on one reviewer, anyone with access could edit anyone else's folder, and your work
+would live in someone else's organisation instead of on your profile.
 
 ## Clone locally, with your own GitHub account
 
@@ -33,42 +29,46 @@ whoever set the workspace up.
 Clone to your own machine, with your own identity:
 
 ```bash
-git clone https://github.com/datapg-labs/ingestion.git
-cd ingestion
+git clone https://github.com/<your-github-user>/<your-repo>.git
+cd <your-repo>
 ```
 
-Use the platform's VS Code and JupyterHub for *running* things against the
-lakehouse and Kafka. Use your laptop for *git*. The two are separate on purpose.
+## Where your code runs
 
-## The flow
+The platform's services — Kafka, Trino, the lakehouse — are only reachable from
+inside the platform. Write and run your code in **JupyterHub** (or a platform VS
+Code workspace if you have one), then copy it into your local clone to commit.
+Your laptop and GitHub Actions cannot reach those services. The two halves are
+separate on purpose.
 
-If you are not a member of the `datapg-labs` org, or the org is read-only for
-you, **fork the repo first** and work in your fork. Otherwise work in a branch.
+## Improving this template
 
-```bash
-git checkout -b pgXXXX/my-first-pipeline
-# ... make your changes, inside your own directory ...
-git add ingestion/pgXXXX/
-git commit -m "Add a worked example of consuming from a Kafka topic"
-git push origin pgXXXX/my-first-pipeline
-```
+Pull requests to this repository are welcome when they improve the shared material
+for everyone: a mistake in the docs, a template that no longer runs, a clearer
+worked example. They are not the place for your own projects.
 
-Then open a pull request. In the description, say what it does and what you
-learned — that is the part reviewers actually respond to.
+1. Fork `datapg-labs/ingestion` and create a branch in your fork
+2. Make one focused change
+3. Open a pull request that says what was wrong and how you checked the fix
 
-## What a review looks for
+Every pull request here is reviewed before it merges. Expect comments; they are
+meant to teach, not to reject. A review looks for:
 
-- Does it stay inside your own directory?
-- Does it respect the platform limits below?
-- Does the README explain what it does, so the next person can learn from it?
+- A change that helps the next learner, not just you
+- Nothing personal: no platform IDs, no notebooks full of your own output
 - No credentials, tokens, keys, or `.env` files. Not even fake-looking ones.
 
-Reviews are meant to teach. Expect comments; they are not a rejection.
+## Show what you built
+
+Built something worth seeing? Open an issue in this repository titled
+`Showcase: <what you built>`, link your repository, and say what you learned. The
+best ones get linked from the README, so the next person can learn from them.
 
 ## Platform limits
 
-These are enforced by the platform, not by politeness. Hitting them produces a
-real error, so it is worth knowing them before you are confused by one.
+These are enforced by the platform on your platform account, wherever your code
+lives. Hitting them produces a real error, so it is worth knowing them before you
+are confused by one.
 
 | Limit | Value |
 |---|---|
@@ -89,12 +89,18 @@ a place to learn, not a place to keep anything.
 
 ## CI
 
-Workflows run on **GitHub-hosted runners**. Never add `runs-on: self-hosted` — a
-pull request that does will be closed. Those runners belong to the platform's own
-infrastructure and are not part of this playground.
+In your own repository, use **GitHub-hosted runners**. They cannot reach the
+platform, so use CI for linting and tests that don't need Kafka or the lakehouse.
+
+In this repository, never add `runs-on: self-hosted` — a pull request that does
+will be closed.
 
 ## Getting your credentials
 
 Your Kafka username and password are at
 **[datapg.dev/credentials](https://datapg.dev/credentials)** once you are signed
 in. They are yours; anyone you share them with is acting as you.
+
+Never commit them — not to this repository, and not to your own, even if it is
+private. Private repositories get made public, forked and shared. Read them from
+the environment instead.

@@ -10,7 +10,7 @@ Each contributor gets one directory, named after your platform ID:
 
 ```
 ingestion/
-  pg0025/
+  pgXXXX/
     my-first-pipeline/
       README.md
       produce.py
@@ -46,11 +46,11 @@ If you are not a member of the `datapg-labs` org, or the org is read-only for
 you, **fork the repo first** and work in your fork. Otherwise work in a branch.
 
 ```bash
-git checkout -b pg0025/my-first-pipeline
+git checkout -b pgXXXX/my-first-pipeline
 # ... make your changes, inside your own directory ...
-git add ingestion/pg0025/
+git add ingestion/pgXXXX/
 git commit -m "Add a worked example of consuming from a Kafka topic"
-git push origin pg0025/my-first-pipeline
+git push origin pgXXXX/my-first-pipeline
 ```
 
 Then open a pull request. In the description, say what it does and what you
@@ -72,7 +72,7 @@ real error, so it is worth knowing them before you are confused by one.
 
 | Limit | Value |
 |---|---|
-| Kafka topics you may create | Must start with `<your-pg-id>.` — e.g. `pg0025.orders` |
+| Kafka topics you may create | Must start with `<your-pg-id>.` — e.g. `pgXXXX.orders` |
 | Kafka consumer groups | Same prefix rule |
 | Produce rate | 1 MB/s |
 | Consume rate | 2 MB/s |

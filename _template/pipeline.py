@@ -1,7 +1,7 @@
 """
 A worked Kafka example for the datapg teaching cluster.
 
-Copy this file into your own directory (e.g. ingestion/pg0025/) and change
+Copy this file into your own directory (e.g. ingestion/pgXXXX/) and change
 PG_ID. Everything else should run unchanged.
 
 Run it from a JupyterHub notebook or the platform VS Code — `kafka-learn` only
@@ -22,7 +22,7 @@ from kafka.errors import TopicAlreadyExistsError
 
 # --- who you are -------------------------------------------------------------
 # Your platform ID, lowercase. Everything you own must start with "<PG_ID>."
-PG_ID = "pg0025"
+PG_ID = "pgXXXX"
 
 # Never paste the password into a file you are going to commit. Set it in the
 # notebook first:  os.environ["KAFKA_PASSWORD"] = "..."

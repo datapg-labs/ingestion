@@ -9,7 +9,7 @@ This is the repo where things actually run today. If you are new, start here.
 
 ```
 _template/          copy this to begin
-<your-pg-id>/       your work, e.g. pg0025/
+<your-pg-id>/       your work, e.g. pgXXXX/
 ```
 
 ## Before you start
@@ -41,7 +41,7 @@ not fail helpfully — it hangs for sixty seconds and then reports
 cause. Create the topic first. The template does this.
 
 **Everything you own starts with your prefix.** Topics and consumer groups both.
-`pg0025.orders` is yours; `orders` is not, and `pg0026.orders` certainly is not.
+`pgXXXX.orders` is yours; `orders` is not, and `pgYYYY.orders` certainly is not.
 The error for getting this wrong is `TopicAuthorizationFailedError`.
 
 ## What you can build here

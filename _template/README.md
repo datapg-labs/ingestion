@@ -3,7 +3,7 @@
 Copy this whole directory, rename it to your platform ID, and start editing.
 
 ```bash
-cp -r _template pg0025
+cp -r _template pgXXXX
 ```
 
 Then in `pipeline.py`, change `PG_ID` to your own.

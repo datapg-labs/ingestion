@@ -2,7 +2,7 @@
 A worked Kafka example for the datapg teaching cluster.
 
 Copy this folder to producer-scripts/<your-project>/ (see its README.md)
-and change PG_ID. Everything else should run unchanged.
+and set PG_ID. Everything else should run unchanged.
 
 Run it from a JupyterHub notebook or the platform VS Code — `kafka-learn` only
 resolves inside the platform network, so this will not run from your laptop.
@@ -18,19 +18,24 @@ from kafka.admin import NewTopic
 from kafka.errors import TopicAlreadyExistsError
 
 # --- who you are -------------------------------------------------------------
-# Your platform ID, lowercase. Everything you own must start with "<PG_ID>."
-PG_ID = "pgXXXX"
+# Your platform ID, lowercase. Everything you own must start with "<PG_ID>.".
+# After merge, the platform pipeline runs this with PG_ID=pipelines - so read it
+# from the environment rather than hard-coding your own.
+PG_ID = os.environ.get("PG_ID", "pgXXXX")
 
 # Never paste the password into a file you are going to commit. Set it in the
 # notebook first:  os.environ["KAFKA_PASSWORD"] = "..."
 # Get it from https://datapg.dev/credentials
 PASSWORD = os.environ["KAFKA_PASSWORD"]
 
-TOPIC = f"{PG_ID}.events"
-GROUP = f"{PG_ID}.demo"
+# Put the project name in topic and group names: after merge every project shares
+# the `pipelines.` prefix, and two projects writing `pipelines.events` would collide.
+PROJECT = "example-kafka-producer"
+TOPIC = f"{PG_ID}.{PROJECT}.events"
+GROUP = f"{PG_ID}.{PROJECT}.demo"
 
 conf = dict(
-    bootstrap_servers="kafka-learn:9092",
+    bootstrap_servers=os.environ.get("KAFKA_BOOTSTRAP", "kafka-learn:9092"),
     security_protocol="SASL_PLAINTEXT",
     sasl_mechanism="SCRAM-SHA-512",
     sasl_plain_username=PG_ID,

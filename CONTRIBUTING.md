@@ -43,10 +43,25 @@ request from your fork; everything else is the same.
 Want to improve someone else's project or the example? Open a pull request for that too
 and say why — the original author is welcome to review it.
 
+## Reviews and merging
+
+A pull request merges once a member of the **reviewers** team approves it — someone other
+than the author. Anyone can comment on and learn from any pull request; ask for a review
+when yours is ready.
+
+## What happens after merge
+
+Merged producers run **once an hour** on the platform, in a locked-down sandbox: as Kafka
+user `pipelines`, with no internet, a 5-minute limit and logs visible in Airflow. See
+[`producer-scripts/README.md`](producer-scripts/README.md#what-happens-after-merge) for
+what that means for your code. Source connector configs are reviewed, not deployed.
+
 ## What a review looks for
 
 - Does it stay inside its own project folder?
 - Does the README explain it to the next person, and link a data contract?
+- Will it run in the sandbox — `PG_ID` from the environment, project name in the topic,
+  exits in time, no internet?
 - Does it respect the platform limits below?
 - No credentials, tokens, keys, or `.env` files. Not even fake-looking ones.
 
@@ -68,12 +83,12 @@ Actions cannot reach those services.
 
 ## Platform limits
 
-These are enforced by the platform on your platform account. Hitting them produces a
-real error, so it is worth knowing them before you are confused by one.
+These are enforced by the platform. Hitting them produces a real error, so it is worth
+knowing them before you are confused by one.
 
 | Limit | Value |
 |---|---|
-| Kafka topics you may create | Must start with `<your-pg-id>.` — e.g. `pgXXXX.orders` |
+| Kafka topics you may create | Must start with `<your-pg-id>.` — e.g. `pgXXXX.orders` (`pipelines.` after merge) |
 | Kafka consumer groups | Same prefix rule |
 | Produce rate | 1 MB/s |
 | Consume rate | 2 MB/s |

@@ -1,4 +1,0 @@
-# GitHub handles allowed to change files outside projects/ (reference/, docs, .github).
-# Only maintainers can edit this file - the scope check reads it from the base branch.
-naush-c
-datapglabs

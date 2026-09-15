@@ -1,94 +1,70 @@
 # Contributing
 
-This repository is a shared codebase, worked on the way a data team works on one:
-projects live side by side, every change goes through a pull request, and teammates
-review each other's work before it merges.
+Everything reaches `main` through a pull request, and every pull request is reviewed
+before it merges. That is the workflow a real data team uses, and practising it is part
+of the point.
 
-## How the repository is organised
+## Where things go
 
 ```
-reference/          maintained examples — read them, don't edit them
-  _template/        the starting point: create a topic, produce, consume
-projects/           learner projects, one directory each
-  btc-price-alerts/
-    README.md       Authors: @alice, @bob
-    pipeline.py
+producer-scripts/            Python producers — one folder per project
+  example-kafka-producer/    the worked example: create a topic, produce, consume
+source-connectors/           Kafka Connect source configs (JSON) — one folder per project
 ```
 
-- **`reference/`** is kept in shape for everyone. Only maintainers change it.
-- **`projects/<name>/`** belongs to the people on its `Authors:` line. Name a project
-  after what it does (`btc-price-alerts`), not after a person.
+Each project gets its own folder with a short `README.md`: what it does, where the data
+comes from, and who built it. Name the folder after what it does (`btc-price-alerts`),
+not after a person.
 
-## Start a project
+## Recommended: a data contract for every ingestion
+
+Anything you ingest becomes a dataset someone else will read. Describe it in
+[`data-contracts`](https://github.com/datapg-labs/data-contracts) — one contract per topic
+— and link the contract from your project's README. A pull request that adds an ingestion
+without one will usually get a review comment asking for it.
+
+## The flow
 
 ```bash
 git clone https://github.com/datapg-labs/ingestion.git
 cd ingestion
 git checkout -b btc-price-alerts
-cp -r reference/_template projects/btc-price-alerts
+cp -r producer-scripts/example-kafka-producer producer-scripts/btc-price-alerts
 ```
 
-1. Put your GitHub handle on the `Authors:` line of `projects/btc-price-alerts/README.md`:
-   `Authors: @your-github-user`
-2. Build it and run it in JupyterHub (see *Where your code runs*), then copy it back
-   into your clone.
-3. Commit, push your branch, and open a pull request.
+1. Edit the README and the code. Run it in JupyterHub (see *Where your code runs*), then
+   copy it back into your clone.
+2. Commit, push your branch, and open a pull request. In the description, say what it
+   does and what you learned — that is the part reviewers respond to.
 
-If you have not accepted your `datapg-labs` invitation yet, fork the repository and
-open the pull request from your fork — everything else is the same.
+If you cannot push branches to `datapg-labs`, fork the repository and open the pull
+request from your fork; everything else is the same.
 
-## Work on someone else's project
+Want to improve someone else's project or the example? Open a pull request for that too
+and say why — the original author is welcome to review it.
 
-Projects are meant to be shared. To join one, open a pull request whose **only**
-change adds your handle to that project's `Authors:` line. One of its authors reviews
-it; once it merges you work on the project like any other author.
+## What a review looks for
 
-To suggest a change without joining, open an issue or comment on a pull request.
-
-## Reviews
-
-A pull request merges when it has:
-
-1. **A peer review.** Ask a teammate — an author of the project, or anyone who knows
-   the area. Reviewing is half of what this repository teaches: read the code, run it
-   if you can, ask questions, suggest changes.
-2. **A maintainer's approval.** Maintainers merge; you don't need to chase them.
-3. **A passing scope check** (next section).
-
-What a good review looks for:
-
-- Does it do what its README says, and would the README make sense to the next person?
+- Does it stay inside its own project folder?
+- Does the README explain it to the next person, and link a data contract?
 - Does it respect the platform limits below?
-- Is it easy to follow — clear names, no dead code, no notebook output committed?
 - No credentials, tokens, keys, or `.env` files. Not even fake-looking ones.
 
-Expect comments on your pull requests; they are meant to teach, not to reject.
-
-## The scope check
-
-An automated check runs on every pull request. It fails, and says exactly which file
-and why, when a pull request:
-
-- changes anything outside `projects/` — `reference/`, the docs, `.github/` — unless
-  you are a maintainer
-- changes a project you are not an author of (joining, as above, is the exception)
-- adds a project without a `README.md` that lists you on its `Authors:` line
-- adds a credentials file (`.env`, `*.pem`, a private key) or a line that looks like a
-  hard-coded password, token or key
+Expect comments; they are meant to teach, not to reject.
 
 ## Clone locally, with your own GitHub account
 
-**Do not use the browser-based VS Code on the platform for git work.** It is a
-shared workspace. Pushing from it would mean putting your GitHub credentials
-somewhere other people can reach, and any commit you made would be attributed to
-whoever set the workspace up. Clone to your own machine, with your own identity.
+**Do not use the browser-based VS Code on the platform for git work.** It is a shared
+workspace. Pushing from it would mean putting your GitHub credentials somewhere other
+people can reach, and any commit you made would be attributed to whoever set the
+workspace up. Clone to your own machine, with your own identity.
 
 ## Where your code runs
 
-The platform's services — Kafka, Trino, the lakehouse — are only reachable from
-inside the platform. Write and run your code in **JupyterHub** (or a platform VS
-Code workspace if you have one), then copy it into your local clone to commit.
-Your laptop and GitHub Actions cannot reach those services.
+The platform's services — Kafka, Trino, the lakehouse — are only reachable from inside
+the platform. Write and run your code in **JupyterHub** (or a platform VS Code workspace
+if you have one), then copy it into your local clone to commit. Your laptop and GitHub
+Actions cannot reach those services.
 
 ## Platform limits
 
@@ -104,26 +80,22 @@ real error, so it is worth knowing them before you are confused by one.
 | Kafka retention | 24 hours, 1 GB per partition |
 | Topic auto-creation | **Off.** Create topics explicitly |
 
-Anything outside your prefix fails with `TopicAuthorizationFailedError`, and a
-topic you have no rights to is reported as "does not exist" rather than
-"forbidden" — so if a topic seems mysteriously missing, check the prefix first.
+Anything outside your prefix fails with `TopicAuthorizationFailedError`, and a topic you
+have no rights to is reported as "does not exist" rather than "forbidden" — so if a topic
+seems mysteriously missing, check the prefix first.
 
-On a shared project, each author runs it under their own platform ID — keep `PG_ID`
-and topic names configurable rather than hard-coding one person's prefix.
-
-The Kafka cluster you have access to is a **teaching cluster**, separate from the
-one running the platform's own pipelines. Twenty-four hour retention means it is
-a place to learn, not a place to keep anything.
+The Kafka cluster you have access to is a **teaching cluster**, separate from the one
+running the platform's own pipelines. Twenty-four hour retention means it is a place to
+learn, not a place to keep anything.
 
 ## CI
 
-Workflows run on **GitHub-hosted runners** only, and live in `.github/`, which
-maintainers look after. Never add `runs-on: self-hosted` — a pull request that does
-will be closed.
+Workflows run on **GitHub-hosted runners** only. Never add `runs-on: self-hosted` — a
+pull request that does will be closed.
 
 ## Getting your credentials
 
 Your Kafka username and password are at
-**[datapg.dev/credentials](https://datapg.dev/credentials)** once you are signed
-in. They are yours; anyone you share them with is acting as you. Never commit them —
-read them from the environment instead.
+**[datapg.dev/credentials](https://datapg.dev/credentials)** once you are signed in. They
+are yours; anyone you share them with is acting as you. Never commit them — read them
+from the environment instead.

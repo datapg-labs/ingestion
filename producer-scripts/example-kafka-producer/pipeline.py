@@ -1,7 +1,7 @@
 """
 A worked Kafka example for the datapg teaching cluster.
 
-Copy this directory to projects/<your-project>/ (see reference/_template/README.md)
+Copy this folder to producer-scripts/<your-project>/ (see its README.md)
 and change PG_ID. Everything else should run unchanged.
 
 Run it from a JupyterHub notebook or the platform VS Code — `kafka-learn` only

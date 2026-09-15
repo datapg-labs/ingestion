@@ -1,17 +1,14 @@
 """
 A worked Kafka example for the datapg teaching cluster.
 
-Copy this file into your own directory (e.g. ingestion/pgXXXX/) and change
-PG_ID. Everything else should run unchanged.
+Copy this directory inside your own repository (created from the datapg-labs/ingestion
+template) and change PG_ID. Everything else should run unchanged.
 
 Run it from a JupyterHub notebook or the platform VS Code — `kafka-learn` only
 resolves inside the platform network, so this will not run from your laptop.
 
-First, in a notebook cell:
-
-    !pip install --quiet kafka-python
-
-The image does not ship a Kafka client.
+There is nothing to install: the notebook image already ships kafka-python, and
+platform notebooks have no internet access, so pip install would fail anyway.
 """
 
 import os

@@ -8,9 +8,12 @@ This is the repo where things actually run today. If you are new, start here.
 ## Layout
 
 ```
-_template/          copy this to begin
-<your-pg-id>/       your work, e.g. pgXXXX/
+_template/          the starting point: create a topic, produce, consume
 ```
+
+This repository is a **template**. Click **Use this template** on GitHub to create
+your own copy under your own account, and do your work there — see
+[CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Before you start
 
@@ -20,18 +23,17 @@ _template/          copy this to begin
 2. Open **JupyterHub** from the launchpad. That is where your code runs — it sits
    on the same network as the teaching Kafka cluster, so `kafka-learn:9092`
    resolves there and nowhere else.
-3. Copy `_template/` into a directory named after your platform ID.
+3. Create your own repository from this template, then copy `_template/` inside it
+   to start your first pipeline.
 
 ## Your first five minutes
 
-In a notebook cell:
+There is nothing to install. The notebook image already ships the Kafka client
+(`kafka-python`) — and platform notebooks have no internet access, so
+`pip install` would fail anyway.
 
-```python
-!pip install --quiet kafka-python
-```
-
-The image does not ship a Kafka client, so this is step one every time you start
-a fresh notebook. Then follow `_template/produce.py`.
+Your JupyterHub server has a ready-made `examples/kafka_example.ipynb` to run
+first. Then follow `_template/pipeline.py`.
 
 Two things trip up almost everyone:
 
@@ -57,5 +59,6 @@ error — that is Kafka throttling you, and it is worth watching happen.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). In short: work in your own directory,
-clone locally rather than using the shared web VS Code, and open a pull request.
+See [CONTRIBUTING.md](CONTRIBUTING.md). In short: create your own repository from
+this template, clone it locally rather than using the shared web VS Code, and push
+to it freely. Pull requests here are for improving the template itself.

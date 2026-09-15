@@ -1,8 +1,8 @@
 """
 A worked Kafka example for the datapg teaching cluster.
 
-Copy this directory inside your own repository (created from the datapg-labs/ingestion
-template) and change PG_ID. Everything else should run unchanged.
+Copy this directory to projects/<your-project>/ (see reference/_template/README.md)
+and change PG_ID. Everything else should run unchanged.
 
 Run it from a JupyterHub notebook or the platform VS Code — `kafka-learn` only
 resolves inside the platform network, so this will not run from your laptop.

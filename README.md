@@ -8,12 +8,12 @@ This is the repo where things actually run today. If you are new, start here.
 ## Layout
 
 ```
-_template/          the starting point: create a topic, produce, consume
+reference/_template/   the starting point: create a topic, produce, consume
+projects/<name>/       learner projects — README.md lists the authors
 ```
 
-This repository is a **template**. Click **Use this template** on GitHub to create
-your own copy under your own account, and do your work there — see
-[CONTRIBUTING.md](CONTRIBUTING.md).
+This is a shared repository: projects live side by side, changes go through pull
+requests, and teammates review each other's work. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Before you start
 
@@ -23,8 +23,8 @@ your own copy under your own account, and do your work there — see
 2. Open **JupyterHub** from the launchpad. That is where your code runs — it sits
    on the same network as the teaching Kafka cluster, so `kafka-learn:9092`
    resolves there and nowhere else.
-3. Create your own repository from this template, then copy `_template/` inside it
-   to start your first pipeline.
+3. Create a branch and copy `reference/_template/` into `projects/<your-project>/`,
+   or join an existing project.
 
 ## Your first five minutes
 
@@ -33,7 +33,7 @@ There is nothing to install. The notebook image already ships the Kafka client
 `pip install` would fail anyway.
 
 Your JupyterHub server has a ready-made `examples/kafka_example.ipynb` to run
-first. Then follow `_template/pipeline.py`.
+first. Then follow `reference/_template/pipeline.py`.
 
 Two things trip up almost everyone:
 
@@ -59,6 +59,6 @@ error — that is Kafka throttling you, and it is worth watching happen.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). In short: create your own repository from
-this template, clone it locally rather than using the shared web VS Code, and push
-to it freely. Pull requests here are for improving the template itself.
+See [CONTRIBUTING.md](CONTRIBUTING.md). In short: work in `projects/<name>/` with your
+handle on its `Authors:` line, branch and open a pull request; a teammate reviews it and
+a maintainer merges.

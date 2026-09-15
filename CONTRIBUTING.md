@@ -1,74 +1,99 @@
 # Contributing
 
-## Your work lives in your own repository
+This repository is a shared codebase, worked on the way a data team works on one:
+projects live side by side, every change goes through a pull request, and teammates
+review each other's work before it merges.
 
-This repository is a **template**. It holds the starting point and the worked
-examples, and it is kept in shape for everyone. Your own pipelines are not merged
-into it — they live in a repository you own:
+## How the repository is organised
 
-1. Open [datapg-labs/ingestion](https://github.com/datapg-labs/ingestion) and click
-   **Use this template → Create a new repository**.
-2. Choose **your own GitHub account** as the owner. Public or private is up to you.
-3. Clone your new repository to your own machine (next section).
+```
+reference/          maintained examples — read them, don't edit them
+  _template/        the starting point: create a topic, produce, consume
+projects/           learner projects, one directory each
+  btc-price-alerts/
+    README.md       Authors: @alice, @bob
+    pipeline.py
+```
 
-From then on it is yours: commit and push whenever you like, organise it however
-you like, and it shows on your GitHub profile. Nobody has to approve anything
-before you can keep going.
+- **`reference/`** is kept in shape for everyone. Only maintainers change it.
+- **`projects/<name>/`** belongs to the people on its `Authors:` line. Name a project
+  after what it does (`btc-price-alerts`), not after a person.
 
-Why not one shared repository with a directory per person? Every change would wait
-on one reviewer, anyone with access could edit anyone else's folder, and your work
-would live in someone else's organisation instead of on your profile.
+## Start a project
+
+```bash
+git clone https://github.com/datapg-labs/ingestion.git
+cd ingestion
+git checkout -b btc-price-alerts
+cp -r reference/_template projects/btc-price-alerts
+```
+
+1. Put your GitHub handle on the `Authors:` line of `projects/btc-price-alerts/README.md`:
+   `Authors: @your-github-user`
+2. Build it and run it in JupyterHub (see *Where your code runs*), then copy it back
+   into your clone.
+3. Commit, push your branch, and open a pull request.
+
+If you have not accepted your `datapg-labs` invitation yet, fork the repository and
+open the pull request from your fork — everything else is the same.
+
+## Work on someone else's project
+
+Projects are meant to be shared. To join one, open a pull request whose **only**
+change adds your handle to that project's `Authors:` line. One of its authors reviews
+it; once it merges you work on the project like any other author.
+
+To suggest a change without joining, open an issue or comment on a pull request.
+
+## Reviews
+
+A pull request merges when it has:
+
+1. **A peer review.** Ask a teammate — an author of the project, or anyone who knows
+   the area. Reviewing is half of what this repository teaches: read the code, run it
+   if you can, ask questions, suggest changes.
+2. **A maintainer's approval.** Maintainers merge; you don't need to chase them.
+3. **A passing scope check** (next section).
+
+What a good review looks for:
+
+- Does it do what its README says, and would the README make sense to the next person?
+- Does it respect the platform limits below?
+- Is it easy to follow — clear names, no dead code, no notebook output committed?
+- No credentials, tokens, keys, or `.env` files. Not even fake-looking ones.
+
+Expect comments on your pull requests; they are meant to teach, not to reject.
+
+## The scope check
+
+An automated check runs on every pull request. It fails, and says exactly which file
+and why, when a pull request:
+
+- changes anything outside `projects/` — `reference/`, the docs, `.github/` — unless
+  you are a maintainer
+- changes a project you are not an author of (joining, as above, is the exception)
+- adds a project without a `README.md` that lists you on its `Authors:` line
+- adds a credentials file (`.env`, `*.pem`, a private key) or a line that looks like a
+  hard-coded password, token or key
 
 ## Clone locally, with your own GitHub account
 
 **Do not use the browser-based VS Code on the platform for git work.** It is a
 shared workspace. Pushing from it would mean putting your GitHub credentials
 somewhere other people can reach, and any commit you made would be attributed to
-whoever set the workspace up.
-
-Clone to your own machine, with your own identity:
-
-```bash
-git clone https://github.com/<your-github-user>/<your-repo>.git
-cd <your-repo>
-```
+whoever set the workspace up. Clone to your own machine, with your own identity.
 
 ## Where your code runs
 
 The platform's services — Kafka, Trino, the lakehouse — are only reachable from
 inside the platform. Write and run your code in **JupyterHub** (or a platform VS
 Code workspace if you have one), then copy it into your local clone to commit.
-Your laptop and GitHub Actions cannot reach those services. The two halves are
-separate on purpose.
-
-## Improving this template
-
-Pull requests to this repository are welcome when they improve the shared material
-for everyone: a mistake in the docs, a template that no longer runs, a clearer
-worked example. They are not the place for your own projects.
-
-1. Fork `datapg-labs/ingestion` and create a branch in your fork
-2. Make one focused change
-3. Open a pull request that says what was wrong and how you checked the fix
-
-Every pull request here is reviewed before it merges. Expect comments; they are
-meant to teach, not to reject. A review looks for:
-
-- A change that helps the next learner, not just you
-- Nothing personal: no platform IDs, no notebooks full of your own output
-- No credentials, tokens, keys, or `.env` files. Not even fake-looking ones.
-
-## Show what you built
-
-Built something worth seeing? Open an issue in this repository titled
-`Showcase: <what you built>`, link your repository, and say what you learned. The
-best ones get linked from the README, so the next person can learn from them.
+Your laptop and GitHub Actions cannot reach those services.
 
 ## Platform limits
 
-These are enforced by the platform on your platform account, wherever your code
-lives. Hitting them produces a real error, so it is worth knowing them before you
-are confused by one.
+These are enforced by the platform on your platform account. Hitting them produces a
+real error, so it is worth knowing them before you are confused by one.
 
 | Limit | Value |
 |---|---|
@@ -83,24 +108,22 @@ Anything outside your prefix fails with `TopicAuthorizationFailedError`, and a
 topic you have no rights to is reported as "does not exist" rather than
 "forbidden" — so if a topic seems mysteriously missing, check the prefix first.
 
+On a shared project, each author runs it under their own platform ID — keep `PG_ID`
+and topic names configurable rather than hard-coding one person's prefix.
+
 The Kafka cluster you have access to is a **teaching cluster**, separate from the
 one running the platform's own pipelines. Twenty-four hour retention means it is
 a place to learn, not a place to keep anything.
 
 ## CI
 
-In your own repository, use **GitHub-hosted runners**. They cannot reach the
-platform, so use CI for linting and tests that don't need Kafka or the lakehouse.
-
-In this repository, never add `runs-on: self-hosted` — a pull request that does
+Workflows run on **GitHub-hosted runners** only, and live in `.github/`, which
+maintainers look after. Never add `runs-on: self-hosted` — a pull request that does
 will be closed.
 
 ## Getting your credentials
 
 Your Kafka username and password are at
 **[datapg.dev/credentials](https://datapg.dev/credentials)** once you are signed
-in. They are yours; anyone you share them with is acting as you.
-
-Never commit them — not to this repository, and not to your own, even if it is
-private. Private repositories get made public, forked and shared. Read them from
-the environment instead.
+in. They are yours; anyone you share them with is acting as you. Never commit them —
+read them from the environment instead.

@@ -52,16 +52,24 @@ when yours is ready.
 ## What happens after merge
 
 Merged producers run **once an hour** on the platform, in a locked-down sandbox: as Kafka
-user `pipelines`, with no internet, a 5-minute limit and logs visible in Airflow. See
+user `pipelines`, with only Binance and Yahoo Finance reachable, a 5-minute limit and logs
+visible in Airflow. See
 [`producer-scripts/README.md`](producer-scripts/README.md#what-happens-after-merge) for
-what that means for your code. Source connector configs are reviewed, not deployed.
+what that means for your code.
+
+Merged source connectors are **deployed** to the learners' Kafka Connect worker within 15
+minutes and run continuously — see
+[`source-connectors/README.md`](source-connectors/README.md#the-rules-a-config-must-follow)
+for the rules a config must follow.
 
 ## What a review looks for
 
 - Does it stay inside its own project folder?
 - Does the README explain it to the next person, and link a data contract?
 - Will it run in the sandbox — `PG_ID` from the environment, project name in the topic,
-  exits in time, no internet?
+  exits in time, only Binance or Yahoo Finance as sources?
+- For a connector: does it follow the rules, and does the README explain the interval and
+  offset choices?
 - Does it respect the platform limits below?
 - No credentials, tokens, keys, or `.env` files. Not even fake-looking ones.
 

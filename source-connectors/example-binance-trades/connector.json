@@ -1,0 +1,12 @@
+{
+  "connector.class": "com.github.castorm.kafka.connect.http.HttpSourceConnector",
+  "http.request.url": "https://api.binance.com/api/v3/trades",
+  "http.request.params": "symbol=BTCUSDT&limit=100",
+  "http.timer.interval.millis": "300000",
+  "http.timer.catchup.interval.millis": "300000",
+  "http.response.list.pointer": "/",
+  "http.response.record.offset.pointer": "key=/id, timestamp=/time",
+  "http.client.connection.timeout.millis": "10000",
+  "http.client.read.timeout.millis": "10000",
+  "kafka.topic": "pipelines.example-binance-trades.trades"
+}
